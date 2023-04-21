@@ -47,4 +47,5 @@ class Main(UserControl):
             return None
 
 
-app(target=Main, view=WEB_BROWSER)
+app(target=Main)
+# app(target=Main, view=WEB_BROWSER)

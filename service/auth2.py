@@ -6,19 +6,18 @@ from firebase_admin import auth as firebase_auth
 from firebase_admin import credentials
 
 
-cred = credentials.Certificate("service_account.json")
+cred = credentials.Certificate("serviceAccount.json")
 
 firebase_admin.initialize_app(cred)
 
 firebaseConfig = {
-    'apiKey': "AIzaSyBkg3RQkA39mAIQNwLmL5RU4eewDH7j564",
-    'authDomain': "fletauth.firebaseapp.com",
-    'projectId': "fletauth",
-    'storageBucket': "fletauth.appspot.com",
-    'messagingSenderId': "1051618712230",
-    'appId': "1:1051618712230:web:271d061362361a4a647267",
-    'measurementId': "G-GN55ZSCRRS",
-    "databaseURL": "https://fletauth-default-rtdb.firebaseio.com/"
+    'apiKey': "AIzaSyA8gTf61ob6mBMY9Tqje16vcitYpsXIOGw",
+    'authDomain': "flet-course.firebaseapp.com",
+    'databaseURL': "https://flet-course-default-rtdb.firebaseio.com",
+    'projectId': "flet-course",
+    'storageBucket': "flet-course.appspot.com",
+    'messagingSenderId': "663795272566",
+    'appId': "1:663795272566:web:2747bde2bee7ef7a1e8857"
 }
 
 
