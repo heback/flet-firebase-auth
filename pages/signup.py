@@ -82,7 +82,7 @@ class Signup(Container):
             horizontal_alignment='center',
             controls=[
                 Container(
-                    width=500,
+                    width=400,
                     border_radius=12,
                     padding=40,
                     bgcolor='white',
@@ -168,7 +168,7 @@ class Signup(Container):
                 store_session(token)
             self.page.splash = None
             self.page.update()
-            self.page.go('/me')
+            self.page.go('/todos')
 
     def input_on_focus(self, e):
         e.control.border = border.all(width=1, color='#bdcbf4')

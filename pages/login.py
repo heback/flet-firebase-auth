@@ -60,7 +60,7 @@ class Login(Container):
             horizontal_alignment='center',
             controls=[
                 Container(
-                    width=500,
+                    width=300,
                     border_radius=12,
                     padding=40,
                     bgcolor='white',
@@ -139,7 +139,7 @@ class Login(Container):
             self.page.update()
             if token:
                 store_session(token)
-                self.page.go('/me')
+                self.page.go('/todos')
             else:
                 self.page.snack_bar = SnackBar(
                     Text('Invalid credentials')

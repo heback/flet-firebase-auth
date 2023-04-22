@@ -38,7 +38,7 @@ class ForgotPassword(Container):
             horizontal_alignment='center',
             controls=[
                 Container(
-                    width=500,
+                    width=400,
                     border_radius=12,
                     padding=40,
                     bgcolor='white',

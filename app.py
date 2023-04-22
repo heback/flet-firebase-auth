@@ -2,16 +2,19 @@ import pickle
 from flet import *
 from pages.home import Home
 from pages.forgotpassword import ForgotPassword
-from pages.dashboard import Dashboard
+from pages.todos import TodoApp
 from pages.login import Login
 from pages.signup import Signup
 from service.auth2 import authenticate_token
 
 
 class Main(UserControl):
+
     def __init__(self, page: Page,):
         super().__init__()
         page.padding = 0
+        page.window_width = 500
+        page.window_height = 700
         self.page = page
         self.init()
 
@@ -19,7 +22,7 @@ class Main(UserControl):
         self.page.on_route_change = self.on_route_change
         token = self.load_token()
         if authenticate_token(token):
-            self.page.go('/me')
+            self.page.go('/todos')
         else:
             self.page.go('/login')
 
@@ -28,7 +31,7 @@ class Main(UserControl):
             "/": Home,
             "/login": Login,
             "/signup": Signup,
-            "/me": Dashboard,
+            "/todos": TodoApp,
             "/forgotpassword": ForgotPassword
 
         }[self.page.route](self.page)

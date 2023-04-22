@@ -1,57 +1,10 @@
 from flet import *
 import datetime
-
-# pip install firebase-admin
-# firebase console에 로그인
-# 프로젝트 생성
-# 프로젝트 설정 > 서비스 계정 메뉴로 가서
-# 파이선 코드 복사해서 가져오고 private key 생성 후 프로젝트 폴더로 복사
-
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import db
-
-cred = credentials.Certificate("serviceAccount.json")
-firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://flet-course-default-rtdb.firebaseio.com/'
-})
-
-
-# DB 관리 클래스
-class DB:
-
-    ref = None
-
-    @staticmethod
-    def connect_db():
-
-        try:
-            DB.ref = db.reference('/todos')
-        except Exception as e:
-            print(e)
-
-    def read_db(self):
-        return DB.ref.get()
-
-    def insert_db(self, values):
-        new_ref = DB.ref.push()
-        new_key = new_ref.key
-        new_ref.set(values)
-        return new_key
-
-    def delete_db(self, key):
-        DB.ref.child(key).set({})
-
-    def update_db(self, key, values):
-        DB.ref.child(key).update(values)
-
-    def update_task_state(self, key, value):
-        DB.ref.child(key).update(value)
+from service.auth2 import *
 
 # DB 연결 및 DB 객체 생성
 DB.connect_db()
 db = DB()
-
 
 class Task(UserControl):
 
@@ -144,18 +97,20 @@ class Task(UserControl):
         self.update()
 
 
-class TodoApp(UserControl):
+class TodoApp(Container):
 
-    def build(self):
+    def __init__(self, page: Page):
+        super().__init__()
+        page.padding = 0
+        page.window_width = 500
 
-        task_list = db.read_db()
-
+        self.task_list = db.read_db()
         self.new_task = TextField(hint_text="Whats needs to be done?", expand=True)
         self.tasks = Column()
 
-        if task_list is not None:
+        if self.task_list is not None:
 
-            for id, t in task_list.items():
+            for id, t in self.task_list.items():
                 task = Task(t['task'], t['completed'], t['reg_date'], self.task_status_change, self.task_delete, id)
                 self.tasks.controls.insert(0, task)
 
@@ -166,10 +121,22 @@ class TodoApp(UserControl):
         )
 
         # application's root control (i.e. "view") containing all other controls
-        return Column(
+        self.content = Column(
             width=600,
-            height=500,
+            height=700,
             controls=[
+                Row(
+                    alignment=alignment.center_right,
+                    controls=[
+                        IconButton(
+                            icon = icons.EXIT_TO_APP,
+                            icon_size=20,
+                            tooltip='Logout',
+                            on_click=lambda _: (revoke_token(load_token()), self.page.go('/login'))
+                        )
+                    ]
+
+                ),
                 Row(
                     controls=[
                         self.new_task,
@@ -178,14 +145,14 @@ class TodoApp(UserControl):
                 ),
                 Column(
                     spacing=25,
+                    height=500,
                     controls=[
                         self.filter,
                         self.tasks,
                     ],
+                    scroll=ScrollMode.AUTO
                 ),
             ],
-
-            scroll=True
         )
 
     def add_clicked(self, e):
@@ -213,30 +180,11 @@ class TodoApp(UserControl):
         status = self.filter.tabs[self.filter.selected_index].text
         for task in self.tasks.controls:
             task.visible = (
-                status == "all"
-                or (status == "active" and task.task_completed == False)
-                or (status == "completed" and task.task_completed)
+                    status == "all"
+                    or (status == "active" and task.task_completed == False)
+                    or (status == "completed" and task.task_completed)
             )
         super().update()
 
     def tabs_changed(self, e):
         self.update()
-
-
-def main(page: Page):
-    page.title = "ToDo App"
-    page.horizontal_alignment = "center"
-    page.window_width = 500
-    page.window_height = 600
-    page.window_maximizable = False
-    page.window_minimizable = False
-    page.update()
-
-    # create application instance
-    app = TodoApp(db)
-
-    # add application's root control to the page
-    page.add(app)
-
-
-flet.app(target=main)

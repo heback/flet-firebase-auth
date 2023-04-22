@@ -4,11 +4,12 @@ import os
 import firebase_admin
 from firebase_admin import auth as firebase_auth
 from firebase_admin import credentials
+from firebase_admin import db
 
 
 cred = credentials.Certificate("serviceAccount.json")
 
-firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(cred, {'databaseURL': 'https://flet-course-default-rtdb.firebaseio.com/'})
 
 firebaseConfig = {
     'apiKey': "AIzaSyA8gTf61ob6mBMY9Tqje16vcitYpsXIOGw",
@@ -23,6 +24,37 @@ firebaseConfig = {
 
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
+
+# DB 관리 클래스
+class DB:
+
+    ref = None
+
+    @staticmethod
+    def connect_db():
+
+        try:
+            DB.ref = db.reference('/todos')
+        except Exception as e:
+            print(e)
+
+    def read_db(self):
+        return DB.ref.get()
+
+    def insert_db(self, values):
+        new_ref = DB.ref.push()
+        new_key = new_ref.key
+        new_ref.set(values)
+        return new_key
+
+    def delete_db(self, key):
+        DB.ref.child(key).set({})
+
+    def update_db(self, key, values):
+        DB.ref.child(key).update(values)
+
+    def update_task_state(self, key, value):
+        DB.ref.child(key).update(value)
 
 
 def create_user(name, email, password):
