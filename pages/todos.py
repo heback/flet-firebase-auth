@@ -133,6 +133,12 @@ class TodoApp(Container):
                             icon_size=20,
                             tooltip='Logout',
                             on_click=lambda _: (revoke_token(load_token()), self.page.go('/login'))
+                        ),
+                        IconButton(
+                            icon=icons.DASHBOARD,
+                            icon_size=20,
+                            tooltip='Dashboard',
+                            on_click=lambda _: self.page.go('/dashboard')
                         )
                     ]
 

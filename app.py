@@ -1,6 +1,5 @@
 import pickle
 from flet import *
-from pages.home import Home
 from pages.forgotpassword import ForgotPassword
 from pages.todos import TodoApp
 from pages.dashboard import Dashboard
@@ -34,7 +33,6 @@ class Main(UserControl):
             "/signup": Signup,
             "/todos": TodoApp,
             "/forgotpassword": ForgotPassword
-
         }[self.page.route](self.page)
 
         self.page.views.clear()

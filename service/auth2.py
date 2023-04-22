@@ -41,6 +41,11 @@ class DB:
     def read_db(self):
         return DB.ref.get()
 
+    def get_tasks_statistics(self):
+        for item in DB.ref.get().items():
+            pass
+
+
     def insert_db(self, values):
         new_ref = DB.ref.push()
         new_key = new_ref.key
