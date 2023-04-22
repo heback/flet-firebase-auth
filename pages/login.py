@@ -8,6 +8,8 @@ class Login(Container):
     def __init__(self, page: Page):
         super().__init__()
         page.padding = 0
+        page.window_width = 500
+        page.window_height = 700
         self.validator = Validator()
         self.expand = True
         self.bgcolor = '#4e73df'

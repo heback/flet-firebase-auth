@@ -3,6 +3,7 @@ from flet import *
 from pages.home import Home
 from pages.forgotpassword import ForgotPassword
 from pages.todos import TodoApp
+from pages.dashboard import Dashboard
 from pages.login import Login
 from pages.signup import Signup
 from service.auth2 import authenticate_token
@@ -28,7 +29,7 @@ class Main(UserControl):
 
     def on_route_change(self, route):
         new_page = {
-            "/": Home,
+            "/dashboard": Dashboard,
             "/login": Login,
             "/signup": Signup,
             "/todos": TodoApp,

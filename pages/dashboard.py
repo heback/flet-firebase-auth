@@ -12,6 +12,8 @@ class Dashboard(Container):
         super().__init__()
 
         page.padding = 0
+        page.window_width = 800
+        page.window_height = 700
         self.expand = True
         fig = self.get_fig()
         self.current_user_name = get_name(load_token())
@@ -40,10 +42,11 @@ class Dashboard(Container):
                             ),
                             Container(
                                 Text(
-                                    value="Dashboard",
+                                    value="Tasks",
                                     size=14,
                                     color='white'
                                 ),
+                                on_click=lambda _: self.page.go('/todos')
                             ),
                             Divider(
                                 color='#9caede',
@@ -52,10 +55,11 @@ class Dashboard(Container):
                             ),
                             Container(
                                 Text(
-                                    value="Utilities",
+                                    value="Logout",
                                     size=14,
                                     color='white'
                                 ),
+                                on_click=lambda _: (revoke_token(load_token()), self.page.go('/login'))
                             ),
                             Divider(
                                 color='#9caede',
