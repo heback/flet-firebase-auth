@@ -6,6 +6,7 @@ import plotly.graph_objs as go
 import random
 from service.auth2 import load_token, get_name, revoke_token
 
+# pip install -U kaleido
 
 class Dashboard(Container):
     def __init__(self, page: Page):
@@ -19,526 +20,526 @@ class Dashboard(Container):
         self.current_user_name = get_name(load_token())
 
         self.menu = Container(
-                        width=220,
-                        bgcolor=blue,
-                        padding=padding.only(top=20, left=10, right=10),
-                        content=Column(
+            width=220,
+            bgcolor=blue,
+            padding=padding.only(top=20, left=10, right=10),
+            content=Column(
+                controls=[
+                    Row(
+                        controls=[
+                            CircleAvatar(
+                                content=Icon(icons.PERSON),
+                                color=colors.YELLOW_200,
+                                bgcolor=colors.AMBER_700,
+                            ),
+                            Text(
+                                value=self.current_user_name,
+                                size=18,
+                                color='white'
+                            ),
+                        ]
+                    ),
+                    Divider(
+                        color='#9caede',
+                        height=0.5,
+                        thickness=.5
+                    ),
+                    Container(
+                        Row(
                             controls=[
-                                Row(
-                                    controls=[
-                                        CircleAvatar(
-                                            content=Icon(icons.PERSON),
-                                            color=colors.YELLOW_200,
-                                            bgcolor=colors.AMBER_700,
-                                        ),
-                                        Text(
-                                            value=self.current_user_name,
-                                            size=18,
-                                            color='white'
-                                        ),
-                                    ]
+                                Icon(
+                                    icons.TASK_ALT,
+                                    size=16,
+                                    color=colors.AMBER
                                 ),
-                                Divider(
-                                    color='#9caede',
-                                    height=0.5,
-                                    thickness=.5
-                                ),
-                                Container(
-                                    Row(
-                                        controls=[
-                                            Icon(
-                                                icons.TASK_ALT,
-                                                size=16,
-                                                color=colors.AMBER
-                                            ),
-                                            Text(
-                                                value="Tasks",
-                                                size=14,
-                                                color='white'
-                                            )
-                                        ]
-                                    ),
-                                    on_click=lambda _: self.page.go('/todos')
-                                ),
-                                Divider(
-                                    color='#9caede',
-                                    height=0.5,
-                                    thickness=.5
-                                ),
-                                Container(
-                                    Row(
-                                        controls=[
-                                            Icon(
-                                                icons.LOGOUT,
-                                                size=16,
-                                                color=colors.AMBER
-                                            ),
-                                            Text(
-                                                value="Logout",
-                                                size=14,
-                                                color='white'
-                                            )
-                                        ]
-                                    ),
-                                    on_click=lambda _: (revoke_token(load_token()), self.page.go('/login'))
-                                ),
-                                Divider(
-                                    color='#9caede',
-                                    height=0.5,
-                                    thickness=.5
-                                ),
-
-                                Row(
-                                    alignment='center',
-                                    controls=[
-                                        Container(
-                                            alignment=alignment.center,
-                                            height=35,
-                                            width=35,
-                                            bgcolor='#9caede',
-                                            border_radius=20,
-                                            content=IconButton(
-                                                icon=icons.ARROW_BACK_IOS,
-                                                icon_size=12,
-                                                on_click=self.menu_hide
-                                            ),
-                                        ),
-
-                                    ]
-                                ),
-                                Container(
-                                    height=200,
-                                    bgcolor='#3c5ec1',
-                                    border_radius=5,
-                                    alignment=alignment.center,
-                                    content=Column(
-                                        horizontal_alignment='center',
-                                        alignment='center',
-                                        controls=[
-                                            Container(
-                                                on_click=lambda _: (revoke_token(
-                                                    load_token()), self.page.go('/login')),
-                                                alignment=alignment.center,
-                                                height=35, width=110,
-                                                border_radius=5,
-                                                bgcolor='#66FFFFFF',
-                                                content=Text(
-                                                    value="Log Out",
-                                                    color='black',
-                                                    size=14,
-                                                    weight=FontWeight.W_600
-                                                )
-                                            )
-                                        ]
-                                    )
-
+                                Text(
+                                    value="Tasks",
+                                    size=14,
+                                    color='white'
                                 )
                             ]
                         ),
-                        on_click=self.menu_show
-                    )
+                        on_click=lambda _: self.page.go('/todos')
+                    ),
+                    Divider(
+                        color='#9caede',
+                        height=0.5,
+                        thickness=.5
+                    ),
+                    Container(
+                        Row(
+                            controls=[
+                                Icon(
+                                    icons.LOGOUT,
+                                    size=16,
+                                    color=colors.AMBER
+                                ),
+                                Text(
+                                    value="Logout",
+                                    size=14,
+                                    color='white'
+                                )
+                            ]
+                        ),
+                        on_click=lambda _: (revoke_token(load_token()), self.page.go('/login'))
+                    ),
+                    Divider(
+                        color='#9caede',
+                        height=0.5,
+                        thickness=.5
+                    ),
 
-        self.body = Container(
-                        expand=True,
-                        bgcolor=white,
+                    Row(
+                        alignment='center',
+                        controls=[
+                            Container(
+                                alignment=alignment.center,
+                                height=35,
+                                width=35,
+                                bgcolor='#9caede',
+                                border_radius=20,
+                                content=IconButton(
+                                    icon=icons.ARROW_BACK_IOS,
+                                    icon_size=12,
+                                    on_click=self.menu_hide
+                                ),
+                            ),
+
+                        ]
+                    ),
+                    Container(
+                        height=200,
+                        bgcolor='#3c5ec1',
+                        border_radius=5,
+                        alignment=alignment.center,
                         content=Column(
-                            expand=True,
-
+                            horizontal_alignment='center',
+                            alignment='center',
                             controls=[
                                 Container(
-                                    height=70, shadow=BoxShadow(
-                                        spread_radius=2,
-                                        blur_radius=20,
-                                        color='#1a000000'
-                                    ),
-                                    padding=padding.only(
-                                        left=30, top=10, bottom=10, right=10),
-                                    bgcolor=white,
-                                    content=Row(
-                                        alignment='spaceBetween',
-                                        controls=[
-                                            Row(
-                                                spacing=0,
-                                                controls=[
-                                                    Container(
-                                                        bgcolor='#f8f9fc',
-                                                        width=350,
-                                                        height=40,
-                                                        border_radius=BorderRadius(
-                                                                topLeft=5, topRight=0, bottomLeft=5, bottomRight=0),
-                                                        content=TextField(
-                                                            border=InputBorder.NONE,
-                                                            hint_text='Search for...',
-                                                            hint_style=TextStyle(
-                                                                color='#66000000',
-                                                                size=12,
-                                                            ),
-                                                            content_padding=padding.only(
-                                                                top=0, bottom=10, left=20, right=10,
-                                                            ),
-                                                            text_style=TextStyle(
-                                                                color='black',
-                                                                size=12,
-                                                                weight=FontWeight.W_600
-
-                                                            )
-
-                                                        )
-
-
-                                                    ),
-
-                                                    Container(
-                                                        height=40, width=40, bgcolor=blue,
-                                                        border_radius=BorderRadius(
-                                                            topLeft=0,
-                                                            topRight=5, bottomLeft=0, bottomRight=5
-                                                        ),
-                                                        content=Icon(
-                                                            icons.SEARCH,
-                                                            color=colors.WHITE
-                                                        )
-                                                    ),
-                                                ]
-                                            ),
-                                            Row(
-                                                spacing=15,
-                                                controls=[
-
-                                                    Container(
-                                                        alignment=alignment.center,
-                                                        content=Stack(
-                                                            controls=[
-                                                                Container(
-                                                                    content=Icon(
-                                                                        icons.NOTIFICATIONS,
-                                                                        size=25,
-                                                                        color=colors.BLUE_600
-                                                                    ),
-                                                                    margin=10
-                                                                ),
-                                                                Container(
-                                                                    height=15,
-                                                                    width=18,
-                                                                    bgcolor='red',
-                                                                    border_radius=5,
-                                                                    right=3,
-                                                                    top=11,
-                                                                    alignment=alignment.center,
-                                                                    content=Text(
-                                                                        value='1+',
-                                                                        size=9,
-                                                                        color=colors.WHITE,
-                                                                        weight=FontWeight.BOLD
-                                                                    )
-                                                                )
-                                                            ]
-                                                        )
-
-                                                    ),
-                                                    Container(
-                                                        alignment=alignment.center,
-                                                        content=Stack(
-                                                            controls=[
-                                                                Container(
-                                                                    content=Icon(
-                                                                        icons.NOTIFICATIONS,
-                                                                        size=25,
-                                                                        color=colors.BLUE_600
-                                                                    ),
-                                                                    margin=10
-                                                                ),
-                                                                Container(
-                                                                    height=15,
-                                                                    width=18,
-                                                                    bgcolor='red',
-                                                                    border_radius=5,
-                                                                    right=3,
-                                                                    top=11,
-                                                                    alignment=alignment.center,
-                                                                    content=Text(
-                                                                        value='1+',
-                                                                        size=9,
-                                                                        color=colors.WHITE,
-                                                                        weight=FontWeight.BOLD
-                                                                    )
-                                                                )
-                                                            ]
-                                                        )
-
-                                                    ),
-                                                    Container(
-                                                        height=30,
-                                                        width=1,
-                                                        bgcolor='#66000000'
-                                                    ),
-
-                                                    CircleAvatar(
-                                                        foreground_image_url="",
-                                                        radius=15
-                                                    )
-
-                                                ]
-                                            ),
-                                        ]
+                                    on_click=lambda _: (revoke_token(
+                                        load_token()), self.page.go('/login')),
+                                    alignment=alignment.center,
+                                    height=35, width=110,
+                                    border_radius=5,
+                                    bgcolor='#66FFFFFF',
+                                    content=Text(
+                                        value="Log Out",
+                                        color='black',
+                                        size=14,
+                                        weight=FontWeight.W_600
                                     )
+                                )
+                            ]
+                        )
 
+                    )
+                ]
+            ),
+            on_click=self.menu_show
+        )
+
+        self.body = Container(
+            expand=True,
+            bgcolor=white,
+            content=Column(
+                expand=True,
+
+                controls=[
+                    Container(
+                        height=70, shadow=BoxShadow(
+                            spread_radius=2,
+                            blur_radius=20,
+                            color='#1a000000'
+                        ),
+                        padding=padding.only(
+                            left=30, top=10, bottom=10, right=10),
+                        bgcolor=white,
+                        content=Row(
+                            alignment='spaceBetween',
+                            controls=[
+                                Row(
+                                    spacing=0,
+                                    controls=[
+                                        Container(
+                                            bgcolor='#f8f9fc',
+                                            width=350,
+                                            height=40,
+                                            border_radius=BorderRadius(
+                                                    topLeft=5, topRight=0, bottomLeft=5, bottomRight=0),
+                                            content=TextField(
+                                                border=InputBorder.NONE,
+                                                hint_text='Search for...',
+                                                hint_style=TextStyle(
+                                                    color='#66000000',
+                                                    size=12,
+                                                ),
+                                                content_padding=padding.only(
+                                                    top=0, bottom=10, left=20, right=10,
+                                                ),
+                                                text_style=TextStyle(
+                                                    color='black',
+                                                    size=12,
+                                                    weight=FontWeight.W_600
+
+                                                )
+
+                                            )
+
+
+                                        ),
+
+                                        Container(
+                                            height=40, width=40, bgcolor=blue,
+                                            border_radius=BorderRadius(
+                                                topLeft=0,
+                                                topRight=5, bottomLeft=0, bottomRight=5
+                                            ),
+                                            content=Icon(
+                                                icons.SEARCH,
+                                                color=colors.WHITE
+                                            )
+                                        ),
+                                    ]
                                 ),
-
-                                Column(
-                                    expand=True,
-                                    scroll='auto',
+                                Row(
+                                    spacing=15,
                                     controls=[
 
                                         Container(
-                                            padding=20,
+                                            alignment=alignment.center,
+                                            content=Stack(
+                                                controls=[
+                                                    Container(
+                                                        content=Icon(
+                                                            icons.NOTIFICATIONS,
+                                                            size=25,
+                                                            color=colors.BLUE_600
+                                                        ),
+                                                        margin=10
+                                                    ),
+                                                    Container(
+                                                        height=15,
+                                                        width=18,
+                                                        bgcolor='red',
+                                                        border_radius=5,
+                                                        right=3,
+                                                        top=11,
+                                                        alignment=alignment.center,
+                                                        content=Text(
+                                                            value='1+',
+                                                            size=9,
+                                                            color=colors.WHITE,
+                                                            weight=FontWeight.BOLD
+                                                        )
+                                                    )
+                                                ]
+                                            )
+
+                                        ),
+                                        Container(
+                                            alignment=alignment.center,
+                                            content=Stack(
+                                                controls=[
+                                                    Container(
+                                                        content=Icon(
+                                                            icons.NOTIFICATIONS,
+                                                            size=25,
+                                                            color=colors.BLUE_600
+                                                        ),
+                                                        margin=10
+                                                    ),
+                                                    Container(
+                                                        height=15,
+                                                        width=18,
+                                                        bgcolor='red',
+                                                        border_radius=5,
+                                                        right=3,
+                                                        top=11,
+                                                        alignment=alignment.center,
+                                                        content=Text(
+                                                            value='1+',
+                                                            size=9,
+                                                            color=colors.WHITE,
+                                                            weight=FontWeight.BOLD
+                                                        )
+                                                    )
+                                                ]
+                                            )
+
+                                        ),
+                                        Container(
+                                            height=30,
+                                            width=1,
+                                            bgcolor='#66000000'
+                                        ),
+
+                                        CircleAvatar(
+                                            foreground_image_url="",
+                                            radius=15
+                                        )
+
+                                    ]
+                                ),
+                            ]
+                        )
+
+                    ),
+
+                    Column(
+                        expand=True,
+                        scroll='auto',
+                        controls=[
+
+                            Container(
+                                padding=20,
+                                content=Row(
+                                    alignment='spaceBetween',
+                                    controls=[
+                                        Row(
+                                            controls=[
+                                                Text(
+                                                    value="Hello,",
+                                                    size=30,
+                                                    color='#5a5c69',
+                                                    weight=FontWeight.W_300
+
+                                                ),
+                                                Text(
+                                                    value=self.current_user_name,
+                                                    size=30,
+                                                    color='#5a5c69',
+                                                    weight=FontWeight.W_700,
+
+
+                                                )
+                                            ]
+                                        ),
+                                        Container(
+                                            border_radius=5,
+                                            bgcolor=blue,
+                                            height=30,
+                                            width=120,
+                                            content=Text(
+                                                value="Generate Report",
+                                                size=14,
+                                                color='white'
+                                            ),
+                                            alignment=alignment.center
+                                        )
+                                    ]
+                                )
+                            ),
+
+                            Container(
+                                padding=20,
+                                content=GridView(
+                                    max_extent=400,
+                                    child_aspect_ratio=4,
+                                    spacing=20,
+                                    run_spacing=20,
+                                    expand=1,
+                                    controls=[
+
+                                        Container(
+                                            padding=30,
+                                            alignment=alignment.center,
+                                            bgcolor='white',
+                                            shadow=BoxShadow(
+                                                # spread_radius=1,
+                                                blur_radius=20,
+                                                color='#1a000000'
+                                            ),
+                                            border=border.only(
+                                                left=border.BorderSide(5, color='green')),
                                             content=Row(
                                                 alignment='spaceBetween',
+                                                vertical_alignment='center',
                                                 controls=[
-                                                    Row(
+                                                    Column(
+                                                        spacing=0,
+                                                        alignment='center',
                                                         controls=[
                                                             Text(
-                                                                value="Hello,",
-                                                                size=30,
-                                                                color='#5a5c69',
-                                                                weight=FontWeight.W_300
-
+                                                                value="Monthly Earnings",
+                                                                color=blue,
                                                             ),
                                                             Text(
-                                                                value=self.current_user_name,
-                                                                size=30,
-                                                                color='#5a5c69',
-                                                                weight=FontWeight.W_700,
-
-
+                                                                value="$45,000",
+                                                                color=db_text,
+                                                                size=25,
+                                                                weight=FontWeight.W_600
                                                             )
                                                         ]
                                                     ),
-                                                    Container(
-                                                        border_radius=5,
-                                                        bgcolor=blue,
-                                                        height=30,
-                                                        width=120,
-                                                        content=Text(
-                                                            value="Generate Report",
-                                                            size=14,
-                                                            color='white'
-                                                        ),
-                                                        alignment=alignment.center
+                                                    Icon(
+                                                        icons.MONEY,
+                                                        color='#dddfeb'
                                                     )
                                                 ]
                                             )
+
                                         ),
-
                                         Container(
-                                            padding=20,
-                                            content=GridView(
-                                                max_extent=400,
-                                                child_aspect_ratio=4,
-                                                spacing=20,
-                                                run_spacing=20,
-                                                expand=1,
-                                                controls=[
-
-                                                    Container(
-                                                        padding=30,
-                                                        alignment=alignment.center,
-                                                        bgcolor='white',
-                                                        shadow=BoxShadow(
-                                                            # spread_radius=1,
-                                                            blur_radius=20,
-                                                            color='#1a000000'
-                                                        ),
-                                                        border=border.only(
-                                                            left=border.BorderSide(5, color='green')),
-                                                        content=Row(
-                                                            alignment='spaceBetween',
-                                                            vertical_alignment='center',
-                                                            controls=[
-                                                                Column(
-                                                                    spacing=0,
-                                                                    alignment='center',
-                                                                    controls=[
-                                                                        Text(
-                                                                            value="Monthly Earnings",
-                                                                            color=blue,
-                                                                        ),
-                                                                        Text(
-                                                                            value="$45,000",
-                                                                            color=db_text,
-                                                                            size=25,
-                                                                            weight=FontWeight.W_600
-                                                                        )
-                                                                    ]
-                                                                ),
-                                                                Icon(
-                                                                    icons.MONEY,
-                                                                    color='#dddfeb'
-                                                                )
-                                                            ]
-                                                        )
-
-                                                    ),
-                                                    Container(
-                                                        padding=30,
-                                                        alignment=alignment.center,
-                                                        bgcolor='white',
-                                                        shadow=BoxShadow(
-                                                            # spread_radius=1,
-                                                            blur_radius=20,
-                                                            color='#1a000000'
-                                                        ),
-                                                        border=border.only(
-                                                            left=border.BorderSide(5, color='blue')),
-                                                        content=Row(
-                                                            alignment='spaceBetween',
-                                                            vertical_alignment='center',
-                                                            controls=[
-                                                                Column(
-                                                                    spacing=0,
-                                                                    alignment='center',
-                                                                    # horizontal_alignment='center',
-                                                                    controls=[
-                                                                        Text(
-                                                                            value="Monthly Spendings",
-                                                                            color=blue,
-                                                                        ),
-                                                                        Text(
-                                                                            value="$20,000",
-                                                                            color=db_text,
-                                                                            size=25,
-                                                                            weight=FontWeight.W_600
-                                                                        )
-                                                                    ]
-                                                                ),
-                                                                Icon(
-                                                                    icons.MONEY_SHARP,
-                                                                    color='#dddfeb'
-                                                                )
-                                                            ]
-                                                        )
-
-                                                    ),
-                                                    Container(
-                                                        padding=30,
-                                                        alignment=alignment.center,
-                                                        bgcolor='white',
-                                                        shadow=BoxShadow(
-                                                            # spread_radius=1,
-                                                            blur_radius=20,
-                                                            color='#1a000000'
-                                                        ),
-                                                        border=border.only(
-                                                            left=border.BorderSide(5, color='yellow')),
-                                                        content=Row(
-                                                            alignment='spaceBetween',
-                                                            vertical_alignment='center',
-                                                            controls=[
-                                                                Column(
-                                                                    spacing=0,
-                                                                    alignment='center',
-                                                                    # horizontal_alignment='center',
-                                                                    controls=[
-                                                                        Text(
-                                                                            value="Yearly Earnings",
-                                                                            color=blue,
-                                                                        ),
-                                                                        Text(
-                                                                            value="$4,050,000",
-                                                                            color=db_text,
-                                                                            size=25,
-                                                                            weight=FontWeight.W_600
-                                                                        )
-                                                                    ]
-                                                                ),
-                                                                Icon(
-                                                                    icons.PRICE_CHANGE,
-                                                                    color='#dddfeb'
-                                                                )
-                                                            ]
-                                                        )
-
-                                                    ),
-                                                    Container(
-                                                        padding=30,
-                                                        alignment=alignment.center,
-                                                        bgcolor='white',
-                                                        shadow=BoxShadow(
-                                                            # spread_radius=1,
-                                                            blur_radius=20,
-                                                            color='#1a000000'
-                                                        ),
-                                                        border=border.only(
-                                                            left=border.BorderSide(5, color='red')),
-                                                        content=Row(
-                                                            alignment='spaceBetween',
-                                                            vertical_alignment='center',
-                                                            controls=[
-                                                                Column(
-                                                                    spacing=0,
-                                                                    alignment='center',
-                                                                    # horizontal_alignment='center',
-                                                                    controls=[
-                                                                        Text(
-                                                                            value="Yearly Spendings",
-                                                                            color=blue,
-                                                                        ),
-                                                                        Text(
-                                                                            value="$500,000",
-                                                                            color=db_text,
-                                                                            size=25,
-                                                                            weight=FontWeight.W_600
-                                                                        )
-                                                                    ]
-                                                                ),
-                                                                Icon(
-                                                                    icons.PRICE_CHECK,
-                                                                    color='#dddfeb'
-                                                                )
-                                                            ]
-                                                        )
-
-                                                    ),
-
-                                                ]
-                                            )
-                                        ),
-
-                                        Container(
+                                            padding=30,
+                                            alignment=alignment.center,
+                                            bgcolor='white',
                                             shadow=BoxShadow(
-                                                spread_radius=0,
-                                                color='#1A000000',
+                                                # spread_radius=1,
                                                 blur_radius=20,
+                                                color='#1a000000'
                                             ),
-                                            border_radius=10,
-                                            clip_behavior=ClipBehavior.ANTI_ALIAS,
-                                            padding=padding.only(
-                                                left=20, right=20),
-                                            content=Column(
-                                                spacing=0,
-                                                # alignment='center',
+                                            border=border.only(
+                                                left=border.BorderSide(5, color='blue')),
+                                            content=Row(
+                                                alignment='spaceBetween',
+                                                vertical_alignment='center',
                                                 controls=[
-                                                    Container(
-                                                        height=30,
-                                                        bgcolor='#f8f9fc',
-                                                        border=border.only(bottom=border.BorderSide(
-                                                            width=2, color='#662a334d',))
+                                                    Column(
+                                                        spacing=0,
+                                                        alignment='center',
+                                                        # horizontal_alignment='center',
+                                                        controls=[
+                                                            Text(
+                                                                value="Monthly Spendings",
+                                                                color=blue,
+                                                            ),
+                                                            Text(
+                                                                value="$20,000",
+                                                                color=db_text,
+                                                                size=25,
+                                                                weight=FontWeight.W_600
+                                                            )
+                                                        ]
                                                     ),
-                                                    Container(
-                                                        content=PlotlyChart(
-                                                            fig,
-                                                            expand=True,
-                                                        )
+                                                    Icon(
+                                                        icons.MONEY_SHARP,
+                                                        color='#dddfeb'
                                                     )
                                                 ]
                                             )
+
+                                        ),
+                                        Container(
+                                            padding=30,
+                                            alignment=alignment.center,
+                                            bgcolor='white',
+                                            shadow=BoxShadow(
+                                                # spread_radius=1,
+                                                blur_radius=20,
+                                                color='#1a000000'
+                                            ),
+                                            border=border.only(
+                                                left=border.BorderSide(5, color='yellow')),
+                                            content=Row(
+                                                alignment='spaceBetween',
+                                                vertical_alignment='center',
+                                                controls=[
+                                                    Column(
+                                                        spacing=0,
+                                                        alignment='center',
+                                                        # horizontal_alignment='center',
+                                                        controls=[
+                                                            Text(
+                                                                value="Yearly Earnings",
+                                                                color=blue,
+                                                            ),
+                                                            Text(
+                                                                value="$4,050,000",
+                                                                color=db_text,
+                                                                size=25,
+                                                                weight=FontWeight.W_600
+                                                            )
+                                                        ]
+                                                    ),
+                                                    Icon(
+                                                        icons.PRICE_CHANGE,
+                                                        color='#dddfeb'
+                                                    )
+                                                ]
+                                            )
+
+                                        ),
+                                        Container(
+                                            padding=30,
+                                            alignment=alignment.center,
+                                            bgcolor='white',
+                                            shadow=BoxShadow(
+                                                # spread_radius=1,
+                                                blur_radius=20,
+                                                color='#1a000000'
+                                            ),
+                                            border=border.only(
+                                                left=border.BorderSide(5, color='red')),
+                                            content=Row(
+                                                alignment='spaceBetween',
+                                                vertical_alignment='center',
+                                                controls=[
+                                                    Column(
+                                                        spacing=0,
+                                                        alignment='center',
+                                                        # horizontal_alignment='center',
+                                                        controls=[
+                                                            Text(
+                                                                value="Yearly Spendings",
+                                                                color=blue,
+                                                            ),
+                                                            Text(
+                                                                value="$500,000",
+                                                                color=db_text,
+                                                                size=25,
+                                                                weight=FontWeight.W_600
+                                                            )
+                                                        ]
+                                                    ),
+                                                    Icon(
+                                                        icons.PRICE_CHECK,
+                                                        color='#dddfeb'
+                                                    )
+                                                ]
+                                            )
+
                                         ),
 
                                     ]
                                 )
-                            ]
-                        )
+                            ),
+
+                            Container(
+                                shadow=BoxShadow(
+                                    spread_radius=0,
+                                    color='#1A000000',
+                                    blur_radius=20,
+                                ),
+                                border_radius=10,
+                                clip_behavior=ClipBehavior.ANTI_ALIAS,
+                                padding=padding.only(
+                                    left=20, right=20),
+                                content=Column(
+                                    spacing=0,
+                                    # alignment='center',
+                                    controls=[
+                                        Container(
+                                            height=30,
+                                            bgcolor='#f8f9fc',
+                                            border=border.only(bottom=border.BorderSide(
+                                                width=2, color='#662a334d',))
+                                        ),
+                                        Container(
+                                            content=PlotlyChart(
+                                                fig,
+                                                expand=True,
+                                            )
+                                        )
+                                    ]
+                                )
+                            ),
+
+                        ]
                     )
+                ]
+            )
+        )
 
         self.content = Row(
             spacing=0,
